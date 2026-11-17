@@ -4,7 +4,8 @@ BridgeNote Lab is a separate PulseArk pilot companion, derived from the BridgeNo
 
 It helps a music-outreach team:
 
-- adapt a demo music session with the existing routine and safety-oriented prompt;
+- sketch a music session with the existing routine and safety-oriented prompt;
+- document a small musical-access design: barrier → adjustment → observation → next question;
 - record de-identified observations using simple, descriptive scales;
 - document an inquiry cycle: question, hypothesis, adjustment, reflection;
 - view descriptive program signals without making clinical claims; and
@@ -12,7 +13,7 @@ It helps a music-outreach team:
 
 ## Privacy and scope
 
-This prototype is not a medical, therapeutic, diagnostic, or clinical decision tool. Enter no names, medical records, recordings, contact details, or other identifying information. Use only within an approved consent and safeguarding process.
+This prototype is not a medical, therapeutic, diagnostic, or clinical decision tool. Enter no names, medical records, contact details, or other identifying information. Use only within an approved consent and safeguarding process.
 
 ## Run locally
 
@@ -21,5 +22,5 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-The app writes local pilot records to `data/lab_observations.json` and `data/lab_inquiries.json`. Those files are ignored by Git and must not be committed.
+The app writes local pilot records to `data/lab_observations.json`, `data/lab_access_designs.json`, and `data/lab_inquiries.json`. Those files are ignored by Git and must not be committed.
 
