@@ -11,6 +11,7 @@ from datetime import datetime
 BASE_DIR = os.path.dirname(__file__)
 OBSERVATIONS_PATH = os.path.join(BASE_DIR, "data", "lab_observations.json")
 INQUIRIES_PATH = os.path.join(BASE_DIR, "data", "lab_inquiries.json")
+ACCESS_DESIGNS_PATH = os.path.join(BASE_DIR, "data", "lab_access_designs.json")
 
 
 def _read(path: str) -> list:
@@ -40,12 +41,23 @@ def save_inquiry(record: dict) -> None:
     _write(INQUIRIES_PATH, records)
 
 
+def save_access_design(record: dict) -> None:
+    records = _read(ACCESS_DESIGNS_PATH)
+    record["timestamp"] = datetime.now().isoformat(timespec="minutes")
+    records.append(record)
+    _write(ACCESS_DESIGNS_PATH, records)
+
+
 def observations() -> list:
     return _read(OBSERVATIONS_PATH)
 
 
 def inquiries() -> list:
     return _read(INQUIRIES_PATH)
+
+
+def access_designs() -> list:
+    return _read(ACCESS_DESIGNS_PATH)
 
 
 def metrics() -> dict:
@@ -63,21 +75,35 @@ def metrics() -> dict:
 def portfolio_markdown() -> str:
     stats = metrics()
     questions = inquiries()
+    designs = access_designs()
     lines = [
         "# BridgeNote Lab - Evidence Portfolio",
         "",
         "## Purpose",
-        "A privacy-first music-learning observation tool created to connect compassionate practice with evidence-based iteration.",
+        "A privacy-first musical-access and inquiry tool created to connect compassionate practice with evidence-based iteration.",
         "",
         "## Current learning record",
         f"- {stats['sessions']} structured session observation(s)",
         f"- {stats['participants']} de-identified participant code(s)",
+        f"- {len(designs)} musical access design(s) documented",
     ]
     if stats["engagement"] is not None:
         lines += [
             f"- Mean observer engagement score: {stats['engagement']}/5",
             f"- Mean observer regulation score: {stats['regulation']}/5",
         ]
+    lines += ["", "## Musical access designs"]
+    if designs:
+        for item in designs[-5:][::-1]:
+            lines += [
+                f"### {item['musical_context']}",
+                f"- Access consideration: {item['access_consideration']}",
+                f"- Adjustment tried: {item['adjustment']}",
+                f"- Observable response: {item['response']}",
+                f"- Next question: {item['next_question']}",
+            ]
+    else:
+        lines.append("No access designs yet. Document one small adjustment before making a claim.")
     lines += ["", "## Inquiry cycle"]
     if questions:
         for item in questions[-5:][::-1]:
