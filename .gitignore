@@ -6,5 +6,6 @@ venv/
 data/session_log.json
 data/lab_observations.json
 data/lab_inquiries.json
+data/lab_access_designs.json
 streamlit.log
 
